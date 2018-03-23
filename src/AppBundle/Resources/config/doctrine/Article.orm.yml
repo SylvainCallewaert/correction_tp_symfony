@@ -25,10 +25,16 @@ AppBundle\Entity\Article:
             nullable: true
         stock:
             type: smallint
+        slug:
+            type: string
+            length: '255'
 
     manyToMany:
         commandes:
             targetEntity: Commande
             inversedBy: articles
 
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist: [ prePersist ]
+        # sur l'evenement prePersist d'un objet Article
+        # la fonction prePersist de l'entité Article sera appelée

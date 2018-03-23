@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\Utilisateur;
+use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -44,12 +45,12 @@ class AppController extends Controller
     }
 
     /**
-     * @Route("/article/{id}", name="article_display")
+     * @Route("/article/{slug}", name="article_display")
      */
-    public function articleDisplayAction(Request $request, $id)
+    public function articleDisplayAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
-        $article = $em->getRepository('AppBundle:Article')->find($id);
+        $article = $em->getRepository('AppBundle:Article')->findOneBy(['slug' => $slug]);
 
         return $this->render('app/display.html.twig', ['article' => $article]);
     }
@@ -92,6 +93,33 @@ class AppController extends Controller
         ;
         // on récupérer l'objet form
         $form = $formBuilder->getForm();
+
+        // handle request qui appelle automatiquement les seeter de l'objet article
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                // On enregistre notre objet $article dans la base de données, par exemple
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($article);
+                $em->flush();
+                $this->addFlash('success', "L'article a bien été via un formulaire.");
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return $this->render('app/insert_article.html.twig', ['formArticle' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/insert/article-service", name="article_insert_service")
+     */
+    public function articleInsertServiceAction(Request $request)
+    {
+        $article = new Article();
+
+        $form = $this->get('form.factory')->create(ArticleType::class, $article);
 
         // handle request qui appelle automatiquement les seeter de l'objet article
         $form->handleRequest($request);
@@ -262,7 +290,21 @@ class AppController extends Controller
         $em->persist($commande);
         $em->flush();
 
+        // supprimer le panier en session
+        $session->clear(); // supprime toutes les variables en session
+        // ou ça :
+        // $session->remove('panier'); // supprime juste la variable panier de la session
+
+        // on aurait pu modifier le stock de chaque article en bdd
+        // en fonction des quantités commandées
+        foreach ($commande->getArticles() as $article) {
+            $article->setStock(12); // calculer le nouveau stock
+            $em->persist($article);
+        }
+        $em->flush();
+
         $this->addFlash('success', 'Commande validée.');
+
         return $this->redirectToRoute('homepage');
     }
 }

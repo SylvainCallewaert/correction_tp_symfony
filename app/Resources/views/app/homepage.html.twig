@@ -20,7 +20,7 @@
             {{ article.nom }}<br />
             Stock disponible : {{ article.stock }}<br />
 
-            <a href="{{ path('article_display', {'id': article.id}) }}">Voir le détail</a><br />
+            <a href="{{ path('article_display', {'slug': article.slug}) }}">Voir le détail</a><br />
             <a href="{{ path('ajout_article_panier', {'idArticle': article.id}) }}">Ajouter au panier</a><br />
             <a href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
         </div>

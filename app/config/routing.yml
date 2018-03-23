@@ -2,3 +2,8 @@ app:
     resource: '@AppBundle/Controller/AppController.php'
     type: annotation
     prefix: app
+
+service:
+    resource: '@AppBundle/Controller/ServiceController.php'
+    type: annotation
+    prefix: service

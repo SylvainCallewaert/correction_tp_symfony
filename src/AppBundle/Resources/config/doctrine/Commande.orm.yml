@@ -26,4 +26,10 @@ AppBundle\Entity\Commande:
             targetEntity: Utilisateur
             inversedBy: commandes
 
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        #prePersist: [ prePersist ]
+        #postPersist: [ doStuffOnPostPersist ]
+        #preUpdate:
+        #postUpdate:
+        #preRemove:
+        #postRemove:
