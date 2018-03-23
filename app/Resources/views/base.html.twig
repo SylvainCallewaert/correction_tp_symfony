@@ -5,6 +5,8 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/app/css/app.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/app/css/app2.css') }}" />
     </head>
     <body>
         {% block body %}{% endblock %}

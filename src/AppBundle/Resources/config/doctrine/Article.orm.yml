@@ -1,0 +1,34 @@
+AppBundle\Entity\Article:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\ArticleRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        createdAt:
+            type: datetime
+        nom:
+            type: string
+            length: '255'
+        description:
+            type: text
+        prix:
+            type: float
+        prix2:
+            type: decimal
+            precision: '10'
+            scale: '2'
+            nullable: true
+        stock:
+            type: smallint
+
+    manyToMany:
+        commandes:
+            targetEntity: Commande
+            inversedBy: articles
+
+    lifecycleCallbacks: {  }

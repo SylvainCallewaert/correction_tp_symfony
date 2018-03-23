@@ -1,5 +1,28 @@
 {% extends 'base.html.twig'%}
 
 {% block body %}
-    Ceci est ma page d'accueil
+    Ceci est ma page d'accueil avec tous les articles :
+
+    <a href="{{ path('article_insert') }}">Créer un article</a>
+    <a href="{{ path('user_insert') }}">Créer un utilisateur</a>
+    <a href="{{ path('commande') }}">Mon panier ({{ nbArticles }})</a>
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% for article in articles %}
+        <div style="border:1px solid;padding:5px;">
+            {{ article.nom }}<br />
+            Stock disponible : {{ article.stock }}<br />
+
+            <a href="{{ path('article_display', {'id': article.id}) }}">Voir le détail</a><br />
+            <a href="{{ path('ajout_article_panier', {'idArticle': article.id}) }}">Ajouter au panier</a><br />
+            <a href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
+        </div>
+    {% endfor %}
 {% endblock %}

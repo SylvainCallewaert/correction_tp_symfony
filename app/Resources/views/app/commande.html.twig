@@ -1,0 +1,19 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+    Ceci est la page panier avant commande<br><br>
+
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% for article in panier %}
+        Article {{ article[0].nom }} - {{ article[0].prix }}€ : {{ article[1] }}<br>
+    {% endfor %}
+
+    <a href="{{ path('valider_commande') }}">Valider la commande</a>
+{% endblock %}
