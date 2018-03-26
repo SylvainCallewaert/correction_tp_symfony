@@ -3,6 +3,7 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: bcrypt
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -17,6 +18,8 @@ security:
                 users:
                     admin: { password: "1234", roles: [ 'ROLE_SUPER_ADMIN' ] }
                     subadmin: { password: "1234", roles: [ 'ROLE_ADMIN' ] }
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
@@ -61,6 +64,22 @@ security:
                 secret:   '%secret%'
                 lifetime: 604800
 
+        fosuser:
+            pattern: ^/fosuser
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                login_path:  /fosuser/login
+                check_path:  /fosuser/login_check
+                default_target_path: /fos
+                csrf_token_generator: security.csrf.token_manager
+            logout:
+                path:   /fosuser/logout
+                target: /fosuser/login
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800
+
         main:
             pattern: ^/
             anonymous: true
@@ -84,6 +103,11 @@ security:
         - { path: ^/espace-perso/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/espace-perso/pro, roles: ROLE_PRO }
         - { path: ^/espace-perso, roles: ROLE_PERSO }
+
+        - { path: ^/fosuser/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/fosuser/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/fosuser/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
         - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 

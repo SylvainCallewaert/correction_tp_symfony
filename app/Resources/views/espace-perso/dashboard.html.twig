@@ -1,6 +1,7 @@
 {% extends 'base.html.twig'%}
 
 {% block body %}
+    {{ dump(app.user) }}
     <a href="{{ path('logout_espaceperso') }}">Déconnexion</a>
     <a href="{{ path('pro_espaceperso') }}">Espace pro</a>
     Ceci est la page dashboard de l'espace perso<br >
