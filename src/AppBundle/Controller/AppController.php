@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 
 class AppController extends Controller
@@ -118,13 +119,23 @@ class AppController extends Controller
     public function articleInsertServiceAction(Request $request)
     {
         $article = new Article();
+        // mettre une valeur par défaut dans le formulaire
+        // $article->setNom("Titre de cet article");
 
         $form = $this->get('form.factory')->create(ArticleType::class, $article);
 
         // handle request qui appelle automatiquement les seeter de l'objet article
         $form->handleRequest($request);
 
+        //if ($article->getNom() != "")
         if ($form->isSubmitted()) {
+            /*
+                 // Cette vérification a été configuré dans le AppBundle/Resources/config/validation.yml
+                if (mb_strlen($article->getNom()) < 3) {
+                    $form->addError(new FormError("Le nom doit contenir au moins 3 caractères"));
+                }
+             */
+
             if ($form->isValid()) {
                 // On enregistre notre objet $article dans la base de données, par exemple
                 $em = $this->getDoctrine()->getManager();
@@ -132,7 +143,7 @@ class AppController extends Controller
                 $em->flush();
                 $this->addFlash('success', "L'article a bien été via un formulaire.");
 
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute('article_insert_service');
             }
         }
 

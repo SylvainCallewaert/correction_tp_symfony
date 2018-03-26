@@ -1,0 +1,8 @@
+AppBundle\Entity\Article:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: ['nom']
+    properties:
+        nom:
+            - Length:
+                min: 3
+                minMessage: Le nom doit contenir au moins {{ limit }} caractères
