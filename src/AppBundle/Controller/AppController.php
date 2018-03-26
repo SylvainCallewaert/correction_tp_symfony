@@ -129,12 +129,18 @@ class AppController extends Controller
 
         //if ($article->getNom() != "")
         if ($form->isSubmitted()) {
+
+             // Cette vérification a été configuré dans le AppBundle/Resources/config/validation.yml
+
+            /* ici ces erreurs sont liés au formulaire, et pas aux champs en particulier */
             /*
-                 // Cette vérification a été configuré dans le AppBundle/Resources/config/validation.yml
-                if (mb_strlen($article->getNom()) < 3) {
-                    $form->addError(new FormError("Le nom doit contenir au moins 3 caractères"));
-                }
-             */
+            if (mb_strlen($article->getNom()) < 3) {
+                $form->addError(new FormError("Le nom doit contenir au moins 3 caractères"));
+            }
+            if (mb_strlen($article->getDescription()) < 10) {
+                $form->addError(new FormError("Description doit contenir au moins 10 caractères"));
+            }
+            */
 
             if ($form->isValid()) {
                 // On enregistre notre objet $article dans la base de données, par exemple

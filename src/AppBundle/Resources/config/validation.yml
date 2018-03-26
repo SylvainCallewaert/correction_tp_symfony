@@ -6,3 +6,7 @@ AppBundle\Entity\Article:
             - Length:
                 min: 3
                 minMessage: Le nom doit contenir au moins {{ limit }} caractères
+        description:
+            - Length:
+                min: 10
+                minMessage: La description doit contenir au moins {{ limit }} caractères

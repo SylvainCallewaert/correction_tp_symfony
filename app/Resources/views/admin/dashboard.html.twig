@@ -1,0 +1,10 @@
+{% extends 'base.html.twig'%}
+
+{% block body %}
+    <a href="{{ path('logout_admin') }}">Déconnexion</a>
+    Ceci est la page dashboard<br >
+
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <a href="{{ path('admin_utilisateurs') }}">Gestion des utilisateurs</a>
+    {% endif %}
+{% endblock %}

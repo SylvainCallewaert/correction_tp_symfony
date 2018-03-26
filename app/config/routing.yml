@@ -7,3 +7,17 @@ service:
     resource: '@AppBundle/Controller/ServiceController.php'
     type: annotation
     prefix: service
+
+login:
+    resource: '@AppBundle/Controller/LoginController.php'
+    type: annotation
+
+admin:
+    resource: '@AppBundle/Controller/AdminController.php'
+    type: annotation
+    prefix: admin
+
+espaceperso:
+    resource: '@AppBundle/Controller/EspacePersoController.php'
+    type: annotation
+    prefix: espace-perso

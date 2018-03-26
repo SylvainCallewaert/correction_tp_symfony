@@ -3,6 +3,26 @@
 {% block body %}
     Ceci est la page de création d'article
 
-    {{ form(formArticle) }}
+    {#{{ form(formArticle) }}#}
+
+
+
+
+    {{ form_start(formArticle, {'attr': {'class': 'form-horizontal classe-que-vous-voulez'}}) }}
+        {# les erreurs liées au formulaire #}
+        <div style="color:red;">
+            {{ form_errors(formArticle) }}
+        </div>
+
+        {{ form_widget(formArticle.description) }}
+        {{ form_label(formArticle.description) }}
+
+        {# les erreurs liées à un champ en particulier #}
+        <div style="color:red;">
+            {{ form_errors(formArticle.description) }}
+        </div>
+
+    {{ form_end(formArticle) }}
+
 
 {% endblock %}
